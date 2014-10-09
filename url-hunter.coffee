@@ -1,9 +1,7 @@
 class Game
   constructor: ->
-    @level = 1
     @levelSize = 60
     @playerLocation = @levelSize / 2
-    @start()
 
   start: ->
     @points = 0
@@ -11,11 +9,9 @@ class Game
     @timeLimit = 30
     @animals = []
     @addAnimal() for num in [4..1]
-
-    @interval = setInterval(@update, 1000 / 30)
+    @interval = setInterval((=> @update()), 1000 / 30)
 
   gameOver: ->
-
     clearInterval(@interval)
     location.replace "#  You killed #{@points} animal#{if @points == 1 then '' else '\'s'} in #{@elapsedTime()} seconds! (Press ESC to play again)"
 
@@ -29,7 +25,7 @@ class Game
     @animals.push(animal)
 
   removeAnimal: (deadAnimal) ->
-    @animals = (animal for animal in @animals when animal != deadAnimal)
+    @animals = @animals.filter (animal) -> animal != deadAnimal
 
   isAnimalAt: (position) ->
     matches = (animal for animal in @animals when Math.floor(animal.position) == position)
@@ -37,31 +33,30 @@ class Game
 
   # Gamestate Methods
   # -----------------
-  update: =>
-    url = []
-
+  update: ->
     animal.update(@levelSize) for animal in @animals
+    @draw()
 
-    # Redraw level
+  draw: ->
+    url = ""
     while url.length < @levelSize
       position = url.length
       if position == @playerLocation
-        if @isAnimalAt(@playerLocation) then url.push("@") else url.push("O")
+        if @isAnimalAt(@playerLocation) then url += "@" else url += "O"
       else if @isAnimalAt(position)
-        url.push("a")
+        url += "a"
       else
-        url.push("-")
+        url += "-"
 
     timeLeft = @timeLimit - @elapsedTime()
     if timeLeft <= 0
       @gameOver()
     else
       timeLeft = "0" + timeLeft if timeLeft < 10 # Keep the same width
-      location.replace "#  #{timeLeft}|" + url.join("") + "|#{timeLeft}"
+      location.replace "#  #{timeLeft}|" + url + "|#{timeLeft}"
       document.title = "Points #{@points}"
 
-
-  eventReceived: (event) =>
+  onKeyDown: (event) =>
     switch event.which
       when 37 # left
         @playerLocation -= 1
@@ -74,25 +69,25 @@ class Game
         if animal
           @points += 1
           @removeAnimal(animal)
-          console.log(@animals.length)
           @gameOver() if @animals.length == 0
-      when 27
+      when 27 # enter
         @start()
-
 
 class Animal
   constructor: (position) ->
     @position = position
     @velocityChange = Math.random() * 0.5
     @velocityIndex = Math.random() * Math.PI
-    @dampener = 0.4
 
   update: (levelSize) ->
+    dampener = 0.4
+
     @velocityIndex += (Math.random() * @velocityChange)
-    @position += Math.sin(@velocityIndex) * @dampener
+    @position += Math.sin(@velocityIndex) * dampener
     @position %= levelSize
     @position += levelSize if @position < 0
 
-$ ->
+document.addEventListener 'DOMContentLoaded', ->
   game = new Game()
-  $(document).keydown game.eventReceived
+  document.addEventListener 'keydown', game.onKeyDown
+  game.start()
