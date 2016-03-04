@@ -9,7 +9,7 @@ class Game {
     this.startTime = new Date()
     this.timeLimit = 30 // seconds
     this.animals = []
-    for (let i = 0; i++; i < 4) {
+    for (let i = 0; i < 4; i++) {
       let animal = new Animal(Math.floor(Math.random() * this.levelSize))
       this.animals.push(animal)
     }
