@@ -19,7 +19,7 @@ class Game {
 
   gameOver() {
     clearInterval(this.interval)
-    location.replace `#  You killed ${this.points} animal${this.points === 1 ? '' : '\'s'} in ${this.elapsedTime()} seconds! (Press ESC to play again)`
+    location.replace(`#  You killed ${this.points} animal${this.points === 1 ? '' : '\'s'} in ${this.elapsedTime()} seconds! (Press ESC to play again)`)
   }
 
   elapsedTime() {
