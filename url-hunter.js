@@ -13,6 +13,7 @@ var Game = function () {
     _classCallCheck(this, Game);
 
     this.levelSize = 60;
+    console.log("hey");
     this.playerLocation = this.levelSize / 2;
   }
 

@@ -19,7 +19,7 @@ class Game {
 
   gameOver() {
     clearInterval(this.interval)
-    location.replace `#  You killed ${this.points} animal${this.points == 1 ? '' : '\'s'} in ${this.elapsedTime()} seconds! (Press ESC to play again)`
+    location.replace `#  You killed ${this.points} animal${this.points === 1 ? '' : '\'s'} in ${this.elapsedTime()} seconds! (Press ESC to play again)`
   }
 
   elapsedTime() {
@@ -30,11 +30,11 @@ class Game {
   // Animal Methods
   // --------------
   removeAnimal(deadAnimal) {
-    this.animals = this.animals.filter((animal) => animal != deadAnimal)
+    this.animals = this.animals.filter((animal) => animal !== deadAnimal)
   }
 
   animalAt(position) {
-    return this.animals.find(animal => Math.floor(animal.position) == position)
+    return this.animals.find(animal => Math.floor(animal.position) === position)
   }
 
   // Gamestate Methods
@@ -50,7 +50,7 @@ class Game {
     let url = ""
     while(url.length < this.levelSize) {
       let position = url.length
-      if (position == this.playerLocation) {
+      if (position === this.playerLocation) {
         url += this.animalAt(this.playerLocation) ? "@" : "O"
       }
       else if (this.animalAt(position)) {
@@ -66,30 +66,36 @@ class Game {
       this.gameOver()
     }
     else {
-      if (timeLeft < 10) timeLeft = "0" + timeLeft // Keep the same width
+      if (timeLeft < 10) {
+        timeLeft = "0" + timeLeft // Keep the same width
+      }
       location.replace(`#  ${timeLeft}|` + url + `|${timeLeft}`)
       document.title = `Points ${this.points}`
     }
   }
 
   onKeyDown(event) {
-    if (event.which == 37) { // left
+    if (event.which === 37) { // left
       this.playerLocation -= 1
-      if (this.playerLocation < 0) this.playerLocation = this.levelSize - 1
+      if (this.playerLocation < 0) {
+        this.playerLocation = this.levelSize - 1
+      }
     }
-    else if (event.which == 39) { // right
+    else if (event.which === 39) { // right
       this.playerLocation += 1
       this.playerLocation %= this.levelSize
     }
-    else if (event.which == 38 || event.which == 32) { // attack
+    else if (event.which === 38 || event.which === 32) { // attack
       let animal = this.animalAt(this.playerLocation)
       if (animal) {
         this.points += 1
         this.removeAnimal(animal)
-        if (this.animals.length == 0) this.gameOver()
+        if (this.animals.length === 0) {
+          this.gameOver()
+        }
       }
     }
-    else if (event.which == 27) { // enter
+    else if (event.which === 27) { // enter
       this.start()
     }
   }
@@ -108,7 +114,9 @@ class Animal {
     this.velocityIndex += (Math.random() * this.velocityChange)
     this.position += Math.sin(this.velocityIndex) * dampener
     this.position %= levelSize
-    if (this.position < 0) this.position += levelSize
+    if (this.position < 0) {
+      this.position += levelSize
+    }
   }
 }
 
