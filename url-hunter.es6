@@ -122,6 +122,6 @@ class Animal {
 
 document.addEventListener("DOMContentLoaded", () => {
   let game = new Game()
-  document.addEventListener("keydown", game.onKeyDown)
+  document.addEventListener("keydown", (...args) => game.onKeyDown(...args))
   game.start()
 })
