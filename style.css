@@ -1,0 +1,48 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Georgia, "Times New Roman", Times;
+  width: 500px;
+  margin: 10px auto;
+  background-color: #FEFEFE;
+  font-size: 2em;
+}
+
+h2, div {
+  padding-bottom: 20px;
+  line-height: 1.4em;
+}
+
+a {
+  background-color: #F9FC7E;
+  color: black;
+  padding: 1px 2px;
+  text-decoration: none;
+}
+
+img {
+  width: 0.7em;
+}
+
+strong {
+  background-color: #DDD;
+  padding: 1px 2px;
+}
+
+.hidden {
+  display: none;
+}
+
+.small {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 0.5em;
+}
+
+.upsell {
+  border-top: 2px solid #DDD;
+  padding-top: 10px;
+}
