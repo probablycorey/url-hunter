@@ -121,7 +121,14 @@ class Animal {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  let game = new Game()
-  document.addEventListener("keydown", (...args) => game.onKeyDown(...args))
-  game.start()
+  let isSafari = navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1
+
+  if (isSafari) {
+    document.body.classList.toggle("safari")
+  }
+  else {
+    let game = new Game()
+    document.addEventListener("keydown", (...args) => game.onKeyDown(...args))
+    game.start()
+  }
 })

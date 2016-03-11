@@ -29,7 +29,7 @@ var Game = function () {
   }, {
     key: 'gameOver',
     value: function gameOver() {
-      clearInterval(this.points);
+      clearInterval(this.interval);
       location.replace('#  You killed ' + this.points + ' animal' + (this.points === 1 ? '' : '\'s') + ' in ' + this.elapsedTime() + ' seconds! (Press ESC to play again)');
     }
   }, {
@@ -176,9 +176,17 @@ var Animal = function () {
 }();
 
 document.addEventListener("DOMContentLoaded", function () {
-  var game = new Game();
-  document.addEventListener("keydown", function () {
-    return game.onKeyDown.apply(game, arguments);
-  });
-  game.start();
+  var isSafari = navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1;
+
+  if (isSafari) {
+    document.body.classList.toggle("safari");
+  } else {
+    (function () {
+      var game = new Game();
+      document.addEventListener("keydown", function () {
+        return game.onKeyDown.apply(game, arguments);
+      });
+      game.start();
+    })();
+  }
 });
