@@ -80,7 +80,9 @@ class Game {
       if (timeLeft < 10) {
         timeLeft = "0" + timeLeft // Keep the same width
       }
-      location.replace(`#_seconds_left_${timeLeft}|` + url + `|${timeLeft}_`)
+      location.replace(
+        `#_seconds_left_${timeLeft}|` + url + `|${timeLeft}_animal$`
+      )
       document.title = `Points ${this.points}`
     }
   }
